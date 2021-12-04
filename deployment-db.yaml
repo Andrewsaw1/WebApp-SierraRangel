@@ -1,0 +1,26 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: db
+  labels:
+    estado: "1"
+spec:
+  selector: 
+    matchLabels:
+      app: db
+  replicas: 1
+  template: 
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+      - name: db
+        image: sierramaster/db:latest
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: persistentvolumen
+      volumes:
+      - name: persistentvolumen  #asociacion entre volumenes
+        persistentVolumeClaim:
+          claimName: db-claim

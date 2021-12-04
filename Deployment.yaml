@@ -1,0 +1,26 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: crud-jsierra
+  labels:
+    estado: "1"
+spec:
+  selector: 
+    matchLabels:
+      app: crud
+  replicas: 7 
+  template: 
+    metadata:
+      labels:
+        app: crud
+    spec:
+      containers:
+      - name: sierra-web
+        image: sierramaster/appfinal:latest
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: persistentvolumen
+      volumes:
+      - name: persistentvolumen  #asociacion entre volumenes
+        persistentVolumeClaim:
+          claimName: db-claim
